@@ -4,7 +4,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "rootDir": "./src",
-    "outDir": "./src/dist",
+    "outDir": "./dist",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "removeComments": true,
