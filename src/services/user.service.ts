@@ -28,17 +28,17 @@ class UserService {
     return await userRepository.create(dto);
   }
 
-  public async getById(userId: number): Promise<IUser> {
+  public async getById(userId: string): Promise<IUser> {
     return await userRepository.getById(userId);
   }
 
-  public async updateById(userId: number, dto: IUser): Promise<IUser> {
-    return await userRepository.updateById(userId, dto);
-  }
+  // public async updateById(userId: string, dto: IUser): Promise<IUser> {
+  //   return await userRepository.updateById(userId, dto);
+  // }
 
-  public async deleteById(userId: number): Promise<void> {
-    await userRepository.deleteById(userId);
-  }
+  // public async deleteById(userId: number): Promise<void> {
+  //   await userRepository.deleteById(userId);
+  // }
 }
 
 export const userService = new UserService();
