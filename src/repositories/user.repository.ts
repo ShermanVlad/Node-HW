@@ -2,6 +2,10 @@ import { IUser } from "../interfaces/user.interface";
 import { User } from "../models/user.model";
 
 class UserRepository {
+  public async getByParams(params: Partial<IUser>) {
+    return await User.findOne(params);
+  }
+
   public async getList(): Promise<IUser[]> {
     return await User.find();
   }
@@ -14,33 +18,17 @@ class UserRepository {
     return await User.findById(userId);
   }
 
-  // public async updateById(userId: string, dto: IUser): Promise<any> {
-  //   // const users = await fsService.read();
-  //   // const user = users.find((user) => user.id === userId);
-  //   //
-  //   // if (!user) {
-  //   //   throw new ApiError("User not found", 422);
-  //   // }
-  //   //
-  //   // if (dto.password) user.password = dto.password;
-  //   // if (dto.name) user.name = dto.name;
-  //   // if (dto.email) user.email = dto.email;
-  //   //
-  //   // await fsService.write(users);
-  //   // return user;
-  // }
+  public async updateById(userId: string, dto: IUser): Promise<any> {
+    return await User.findByIdAndUpdate(userId, dto, {
+      returnDocument: "after",
+    });
+  }
 
-  // public async deleteById(userId: number): Promise<void> {
-  //   //   const users = await fsService.read();
-  //   //   const userIndex = users.findIndex((user) => user.id === userId);
-  //   //
-  //   //   if (userIndex === -1) {
-  //   //     throw new ApiError("User not found", 422);
-  //   //   }
-  //   //
-  //   //   users.splice(userIndex, 1);
-  //   //   await fsService.write(users);
-  // }
+  public async deleteById(userId: string): Promise<void> {
+    await User.deleteOne({
+      _id: userId,
+    });
+  }
 }
 
 export const userRepository = new UserRepository();

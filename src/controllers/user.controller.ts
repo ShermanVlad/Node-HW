@@ -47,7 +47,7 @@ class UserController {
 
   public async deleteById(req: Request, res: Response, next: NextFunction) {
     try {
-      const userId = Number(req.params.userId);
+      const userId = req.params.userId;
       await userService.deleteById(userId);
 
       res.sendStatus(204);
