@@ -2,7 +2,7 @@ import { IUser } from "../interfaces/user.interface";
 import { User } from "../models/user.model";
 
 class UserRepository {
-  public async getByParams(params: Partial<IUser>) {
+  public async getByParams(params: Partial<IUser>): Promise<IUser> {
     return await User.findOne(params);
   }
 
@@ -18,16 +18,14 @@ class UserRepository {
     return await User.findById(userId);
   }
 
-  public async updateById(userId: string, dto: IUser): Promise<any> {
+  public async updateById(userId: string, dto: IUser): Promise<IUser> {
     return await User.findByIdAndUpdate(userId, dto, {
       returnDocument: "after",
     });
   }
 
   public async deleteById(userId: string): Promise<void> {
-    await User.deleteOne({
-      _id: userId,
-    });
+    await User.deleteOne({ _id: userId });
   }
 }
 

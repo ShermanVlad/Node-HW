@@ -5,7 +5,7 @@ import { IUser } from "../interfaces/user.interface";
 
 const { Schema } = mongoose;
 
-const userSchema = new Schema(
+const userSchema = new Schema<IUser>(
   {
     name: { type: String, required: true },
     age: { type: Number, required: true },
@@ -26,4 +26,4 @@ const userSchema = new Schema(
   },
 );
 
-export const User = mongoose.model<IUser>("users", userSchema);
+export const User = mongoose.model("User", userSchema);

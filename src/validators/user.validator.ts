@@ -1,13 +1,13 @@
 import joi from "joi";
 
-import { regexConstants } from "../constants/regex.constants";
+import { regexConstant } from "../constants/regex.constants";
 
 export class UserValidator {
   private static name = joi.string().min(3).trim();
   private static age = joi.number().min(15).max(50);
-  private static email = joi.string().lowercase().regex(regexConstants.EMAIL);
-  private static password = joi.string().regex(regexConstants.PASSWORD).trim();
-  private static phone = joi.string().regex(regexConstants.PHONE);
+  private static email = joi.string().lowercase().regex(regexConstant.EMAIL);
+  private static password = joi.string().regex(regexConstant.PASSWORD).trim();
+  private static phone = joi.string().regex(regexConstant.PHONE);
 
   public static createUser = joi.object({
     name: UserValidator.name.required(),
@@ -23,5 +23,10 @@ export class UserValidator {
     email: UserValidator.email,
     password: UserValidator.password,
     phone: UserValidator.phone,
+  });
+
+  public static login = joi.object({
+    email: this.email.required(),
+    password: this.password.required(),
   });
 }
