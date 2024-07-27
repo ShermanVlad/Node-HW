@@ -6,6 +6,8 @@ export const configs = {
   APP_PORT: Number(process.env.APP_PORT),
   APP_HOST: process.env.APP_HOST,
 
+  FRONTEND_URL: process.env.FRONTEND_URL,
+
   MONGO_URL: process.env.MONGO_URL,
 
   JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET,
@@ -15,5 +17,4 @@ export const configs = {
 
   SMTP_EMAIL: process.env.SMTP_EMAIL,
   SMTP_PASSWORD: process.env.SMTP_PASSWORD,
-  FRONTEND_URL: process.env.FRONTEND_URL,
 };

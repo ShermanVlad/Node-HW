@@ -5,7 +5,7 @@ import { User } from "./user.model";
 
 const { Schema } = mongoose;
 
-const tokenSchema = new Schema<IToken>(
+const tokenSchema = new Schema(
   {
     accessToken: { type: String, required: true },
     refreshToken: { type: String, required: true },
@@ -18,5 +18,4 @@ const tokenSchema = new Schema<IToken>(
   },
 );
 
-// export const Token = mongoose.model<IToken>("tokens", tokenSchema);
-export const Token = mongoose.model("tokens", tokenSchema);
+export const Token = mongoose.model<IToken>("tokens", tokenSchema);

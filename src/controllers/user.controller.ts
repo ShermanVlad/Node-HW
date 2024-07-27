@@ -13,6 +13,16 @@ class UserController {
     }
   }
 
+  public async getById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = req.params.userId;
+      const result = await userService.getById(userId);
+      res.json(result);
+    } catch (e) {
+      next(e);
+    }
+  }
+
   public async getMe(req: Request, res: Response, next: NextFunction) {
     try {
       const userId = req.res.locals.jwtPayload.userId as string;

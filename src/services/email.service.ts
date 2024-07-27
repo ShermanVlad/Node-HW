@@ -4,7 +4,7 @@ import nodemailer, { Transporter } from "nodemailer";
 import hbs from "nodemailer-express-handlebars";
 
 import { configs } from "../configs/config";
-import { emailConstants } from "../constants/email.constants";
+import { emailConstant } from "../constants/email.constants";
 import { EmailTypeEnum } from "../enums/email-type.enum";
 import { EmailTypeToPayload } from "../types/email-type-to-payload";
 
@@ -26,10 +26,10 @@ class EmailService {
       hbs({
         viewEngine: {
           extname: ".hbs",
-          partialsDir: path.join(process.cwd(), "src", "teplates", "partials"),
-          layoutsDir: path.join(process.cwd(), "src", "teplates", "partials"),
+          partialsDir: path.join(process.cwd(), "src", "templates", "partials"),
+          layoutsDir: path.join(process.cwd(), "src", "templates", "layouts"),
         },
-        viewPath: path.join(process.cwd(), "src", "teplates", "view"),
+        viewPath: path.join(process.cwd(), "src", "templates", "views"),
         extName: ".hbs",
       }),
     );
@@ -40,7 +40,8 @@ class EmailService {
     to: string,
     context: EmailTypeToPayload[T],
   ): Promise<void> {
-    const { subject, template } = emailConstants[type];
+    const { subject, template } = emailConstant[type];
+
     context["frontUrl"] = configs.FRONTEND_URL;
     const options = {
       to,
@@ -48,7 +49,6 @@ class EmailService {
       template,
       context,
     };
-
     await this.transporter.sendMail(options);
   }
 }

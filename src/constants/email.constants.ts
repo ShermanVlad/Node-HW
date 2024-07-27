@@ -1,6 +1,6 @@
 import { EmailTypeEnum } from "../enums/email-type.enum";
 
-export const emailConstants = {
+export const emailConstant = {
   [EmailTypeEnum.WELCOME]: {
     subject: "Welcome",
     template: "welcome",
@@ -9,5 +9,10 @@ export const emailConstants = {
   [EmailTypeEnum.FORGOT_PASSWORD]: {
     subject: "Forgot password",
     template: "forgot-password",
+  },
+
+  [EmailTypeEnum.LOGOUT]: {
+    subject: "Logout",
+    template: "logout",
   },
 };

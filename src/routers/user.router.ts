@@ -20,7 +20,7 @@ router.delete("/me", authMiddleware.checkAccessToken, userController.deleteMe);
 router.get(
   "/:userId",
   commonMiddleware.isIdValid("userId"),
-  userController.deleteMe,
+  userController.getById,
 );
 
 export const userRouter = router;
