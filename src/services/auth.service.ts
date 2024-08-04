@@ -19,8 +19,10 @@ class AuthService {
     dto: IUser,
   ): Promise<{ user: IUser; tokens: ITokenPair }> {
     await this.isEmailExist(dto.email);
+
     const password = await passwordService.hashPassword(dto.password);
     const user = await userRepository.create({ ...dto, password });
+
     const tokens = await tokenService.generatePair({
       userId: user._id,
       role: user.role,
@@ -50,6 +52,7 @@ class AuthService {
     if (!user) {
       throw new ApiError("Invalid credentials", 401);
     }
+
     const isPasswordCorrect = await passwordService.comparePassword(
       dto.password,
       user.password,
@@ -57,6 +60,7 @@ class AuthService {
     if (!isPasswordCorrect) {
       throw new ApiError("Invalid credentials", 401);
     }
+
     const tokens = await tokenService.generatePair({
       userId: user._id,
       role: user.role,
@@ -64,6 +68,7 @@ class AuthService {
     await tokenRepository.create({ ...tokens, _userId: user._id });
     return { user, tokens };
   }
+
   public async refresh(
     payload: ITokenPayload,
     oldTokenId: string,
@@ -76,6 +81,7 @@ class AuthService {
     await tokenRepository.deleteById(oldTokenId);
     return tokens;
   }
+
   public async logout(payload: ITokenPayload, tokenId: string): Promise<void> {
     await tokenRepository.deleteById(tokenId);
     const user = await userRepository.getById(payload.userId);
@@ -83,6 +89,7 @@ class AuthService {
       name: user.name,
     });
   }
+
   public async logoutAll(payload: ITokenPayload): Promise<void> {
     await tokenRepository.deleteByParams({ _userId: payload.userId });
     const user = await userRepository.getById(payload.userId);
@@ -90,9 +97,11 @@ class AuthService {
       name: user.name,
     });
   }
+
   public async forgotPassword(dto: IForgotSendEmail): Promise<void> {
     const user = await userRepository.getByParams({ email: dto.email });
     if (!user) return;
+
     const actionToken = await tokenService.generateActionToken(
       { userId: user._id, role: user.role },
       ActionTokenTypeEnum.FORGOT_PASSWORD,
@@ -107,12 +116,14 @@ class AuthService {
       actionToken,
     });
   }
+
   public async forgotPasswordSet(
     dto: IForgotResetPassword,
     jwtPayload: ITokenPayload,
   ): Promise<void> {
     const password = await passwordService.hashPassword(dto.password);
     await userRepository.updateById(jwtPayload.userId, { password });
+
     await actionTokenRepository.deleteByParams({
       _userId: jwtPayload.userId,
       type: ActionTokenTypeEnum.FORGOT_PASSWORD,
@@ -138,4 +149,5 @@ class AuthService {
     }
   }
 }
+
 export const authService = new AuthService();

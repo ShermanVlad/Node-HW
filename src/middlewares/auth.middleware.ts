@@ -23,6 +23,7 @@ class AuthMiddleware {
         accessToken,
         TokenTypeEnum.ACCESS,
       );
+
       const pair = await tokenRepository.findByParams({ accessToken });
       if (!pair) {
         throw new ApiError("Token is not valid", 401);
@@ -34,6 +35,7 @@ class AuthMiddleware {
       next(e);
     }
   }
+
   public async checkRefreshToken(
     req: Request,
     res: Response,
@@ -49,6 +51,7 @@ class AuthMiddleware {
         refreshToken,
         TokenTypeEnum.REFRESH,
       );
+
       const pair = await tokenRepository.findByParams({ refreshToken });
       if (!pair) {
         throw new ApiError("Token is not valid", 401);
@@ -64,7 +67,7 @@ class AuthMiddleware {
   public checkActionToken(type: ActionTokenTypeEnum) {
     return async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const actionToken = req.body?.token;
+        const actionToken = req.headers.authorization;
         if (!actionToken) {
           throw new ApiError("Token is not provided", 401);
         }

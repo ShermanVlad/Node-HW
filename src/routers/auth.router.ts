@@ -7,6 +7,7 @@ import { commonMiddleware } from "../middlewares/common.middleware";
 import { UserValidator } from "../validators/user.validator";
 
 const router = Router();
+
 router.post(
   "/sign-up",
   commonMiddleware.isBodyValid(UserValidator.createUser),
@@ -17,17 +18,20 @@ router.post(
   commonMiddleware.isBodyValid(UserValidator.login),
   authController.signIn,
 );
+
 router.post(
   "/refresh",
   authMiddleware.checkRefreshToken,
   authController.refresh,
 );
+
 router.post("/logout", authMiddleware.checkAccessToken, authController.logout);
 router.post(
   "/logout-all",
   authMiddleware.checkAccessToken,
   authController.logoutAll,
 );
+
 router.post(
   "/forgot-password",
   commonMiddleware.isBodyValid(UserValidator.forgotPassword),
